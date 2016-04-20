@@ -56,7 +56,27 @@
                      // Although the physical location of the document changes, the element remains
                      // bound to the scope in which it was declared, so it can refer to variables from
                      // the view scope if necessary.
-                     head.append(iElement);
+                     
+                     // check if this is meta description we're working with
+                     // try to update content if element exists or move if not
+                     if (!iAttrs.content) {
+                         head.append(iElement);
+                     } else {
+                         var existingFound = false;
+                         var content = iAttrs.content;
+                         angular.forEach(head.find('meta'), function(meta) {
+                           if (angular.element(meta).attr('name') === 'description') {
+                             angular.element(meta).attr('content', content);
+                             iElement.remove();
+                             existingFound = true;
+                           }
+                         });
+
+                         if(!existingFound) {
+                            // we didn't update the content of existing tag, move it to head
+                            head.append(iElement);
+                         }
+                     }
 
                      // When the scope is destroyed, remove the element.
                      // This is on the assumption that we're being used in some sort of view scope.
