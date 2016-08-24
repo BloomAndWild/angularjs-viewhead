@@ -65,7 +65,7 @@
                          var existingFound = false;
                          var content = iAttrs.content;
                          angular.forEach(head.find('meta'), function(meta) {
-                           if (angular.element(meta).attr('name') === 'description') {
+                           if (angular.element(meta).attr('name') === iAttrs.name) {
                              angular.element(meta).attr('content', content);
                              iElement.remove();
                              existingFound = true;
